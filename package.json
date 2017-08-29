@@ -2,17 +2,19 @@
   "name": "atp-rest-server",
   "version": "1.0.0",
   "description": "A REST server framework",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "supervisor app.js"
+    "start": "supervisor src/app.js"
   },
   "author": "Andrew Wittrock",
   "license": "MIT",
   "dependencies": {
+    "atp-config": "git+https://github.com/DaemonAlchemist/atp-config.git",
+    "atp-sugar": "git+https://github.com/DaemonAlchemist/atp-sugar.git",
     "express": "^4.15.4",
-    "import-export": "^1.0.1",
-    "node-mysql": "^0.4.2"
+    "import-export": "git+https://github.com/DaemonAlchemist/import-export.git#extra-syntax",
+    "mysql-activerecord": "^0.8.6"
   },
   "devDependencies": {
     "supervisor": "^0.12.0"

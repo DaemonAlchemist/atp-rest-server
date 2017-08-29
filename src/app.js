@@ -4,4 +4,4 @@
 
 //Simple wrapper to allow ES6 imports
 require('import-export');
-require('./src/index.js');
+require('./index.js');
