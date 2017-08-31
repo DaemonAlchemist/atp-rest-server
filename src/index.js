@@ -5,6 +5,7 @@
 import express from 'express';
 import url from 'url';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 
 import {o} from 'atp-sugar';
 import config from 'atp-config';
@@ -27,8 +28,11 @@ console.log("Module config loaded");
 config.setValues(appConfig);
 console.log("App config loaded");
 
-//Create the app and use the JSON body parser for all requests
-const app = express().use(bodyParser.json());
+//Create the app and use the JSON body parser and cookie parser for all requests
+const app = express()
+    .use(bodyParser.json())
+    .use(cookieParser())
+;
 
 //Add all module routes
 o(modulesMerged.routes)

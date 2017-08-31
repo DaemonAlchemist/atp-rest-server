@@ -16,6 +16,7 @@
     "atp-uac-rest-server": "git+https://github.com/DaemonAlchemist/atp-rest-uac.git",
     "atp-validator": "git+https://github.com/DaemonAlchemist/atp-validator.git",
     "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
     "express": "^4.15.4",
     "import-export": "git+https://github.com/DaemonAlchemist/import-export.git#extra-syntax",
     "mysql-activerecord": "^0.8.6"
