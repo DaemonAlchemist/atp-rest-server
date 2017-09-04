@@ -10,7 +10,7 @@
   "author": "Andrew Wittrock",
   "license": "MIT",
   "dependencies": {
-    "atp-active-record": "git+https://github.com/DaemonAlchemist/atp-active-record.git",
+    "atp-active-record": "^0.1.2",
     "atp-config": "^0.1.1",
     "atp-sugar": "^0.1.5",
     "atp-uac-rest-server": "git+https://github.com/DaemonAlchemist/atp-rest-uac.git",
