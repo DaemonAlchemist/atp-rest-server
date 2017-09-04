@@ -11,10 +11,10 @@
   "license": "MIT",
   "dependencies": {
     "atp-active-record": "git+https://github.com/DaemonAlchemist/atp-active-record.git",
-    "atp-config": "git+https://github.com/DaemonAlchemist/atp-config.git",
-    "atp-sugar": "git+https://github.com/DaemonAlchemist/atp-sugar.git",
+    "atp-config": "^0.1.1",
+    "atp-sugar": "^0.1.5",
     "atp-uac-rest-server": "git+https://github.com/DaemonAlchemist/atp-rest-uac.git",
-    "atp-validator": "git+https://github.com/DaemonAlchemist/atp-validator.git",
+    "atp-validator": "^0.1.1",
     "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.4",
