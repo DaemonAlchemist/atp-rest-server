@@ -11,28 +11,17 @@ import {o} from 'atp-sugar';
 import config from 'atp-config';
 import appConfig from '../config/app';
 
-//Import all modules
-import userModule from 'atp-rest-uac';
-
-//Create the list of REST modules
-const modules = [userModule];
-
 //Merge module components
-const modulesMerged = modules.reduce((combined, module) => combined.merge(module), o({})).raw;
+const modulesMerged = appConfig.modules.reduce((combined, module) => combined.merge(module), o({})).raw;
 
-//Join default module config
+//Set default and app config values
 config.setDefaults(modulesMerged.config);
-console.log("Module config loaded");
-
-//Set app config
-config.setValues(appConfig);
-console.log("App config loaded");
+config.setValues(appConfig.config);
 
 //Create the app and use the JSON body parser and cookie parser for all requests
 const app = express()
     .use(bodyParser.json())
-    .use(cookieParser())
-;
+    .use(cookieParser());
 
 //Add all module routes
 o(modulesMerged.routes)
