@@ -22,6 +22,9 @@
     "mysql-activerecord": "^0.8.6"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
     "cross-spawn": "^5.1.0",
     "supervisor": "^0.12.0"
   }
