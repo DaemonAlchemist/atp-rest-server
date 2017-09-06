@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser';
 
 import {o} from 'atp-sugar';
 import config from 'atp-config';
-import appConfig from '../config/app';
+import appConfig from './app.config';
 
 //Merge module components
 const modulesMerged = appConfig.modules.reduce((combined, module) => combined.merge(module), o({})).raw;
