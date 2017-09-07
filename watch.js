@@ -59,6 +59,31 @@ fs.watch('src', (eventType, fileName) => {
     }, delay);
 });
 
+//Make sure all of the modules are compiled
+exec("npm run compile", (err, stdout, stderr) => {
+    if(stderr.length > 0) {
+        console.log("Main app FAILED to recompile:");
+        console.log(stderr);
+    } else {
+        console.log("Main app recompiled");
+        restart();
+    }
+});
+fs.readdir("lib/node_modules", (err, files) => {
+    files.forEach(module => {
+        exec("cd lib/node_modules/" + module + " && npm run compile", (err, stdout, stderr) => {
+            if(stderr.length > 0) {
+                console.log("Module " + module + " FAILED to recompile:");
+                console.log(stderr);
+            } else {
+                console.log("Module " + module + " recompiled");
+                restart();
+            }
+        });
+    });
+});
+
+
 console.log("Watching for file changes in modules...");
 fs.watch('lib', {recursive: true}, (eventType, fileName) => {
     //Only recompile for matching files
