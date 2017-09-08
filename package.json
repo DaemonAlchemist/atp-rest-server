@@ -19,7 +19,8 @@
     "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.4",
-    "mysql-activerecord": "^0.8.6"
+    "mysql-activerecord": "^0.8.6",
+    "promise": "^8.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

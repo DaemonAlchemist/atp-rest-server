@@ -6,6 +6,7 @@ const fs = require('fs');
 const {exec} = require('child_process');
 const spawn = require('cross-spawn');
 const process = require('process');
+const Promise = require('promise');
 
 //Set delay for starting the recompile (PHPStorm tends to fire multiple file changes events in quick bursts)
 const delay = 500;
@@ -40,71 +41,86 @@ const restart = () => {
         console.log(`REST server exited with code ${code}`);
     });
 };
-restart();
 
-console.log("Watching for file changes in main app...");
-fs.watch('src', (eventType, fileName) => {
-    clearTimeout(appCompileEvent);
-    appCompileEvent = setTimeout(() => {
-        console.log("Recompiling main app");
-        exec("npm run compile", (err, stdout, stderr) => {
-            if(stderr.length > 0) {
-                console.log("Main app FAILED to recompile:");
-                console.log(stderr);
-            } else {
-                console.log("Main app recompiled");
-                restart();
-            }
-        });
-    }, delay);
-});
+//Keep track of all startup tasks
+let promises = [];
 
 //Make sure all of the modules are compiled
-exec("npm run compile", (err, stdout, stderr) => {
-    if(stderr.length > 0) {
-        console.log("Main app FAILED to recompile:");
-        console.log(stderr);
-    } else {
-        console.log("Main app recompiled");
-        restart();
-    }
-});
+console.log("Compiling main app...");
+promises.push(new Promise((resolve, reject) => {
+    exec("npm run compile", (err, stdout, stderr) => {
+        if(stderr.length > 0) {
+            console.log("Main app FAILED to recompile:");
+            console.log(stderr);
+            reject();
+        } else {
+            console.log("Main app recompiled");
+            resolve()
+        }
+    });
+}));
+
+
 fs.readdir("lib/node_modules", (err, files) => {
     files.forEach(module => {
-        exec("cd lib/node_modules/" + module + " && npm run compile", (err, stdout, stderr) => {
-            if(stderr.length > 0) {
-                console.log("Module " + module + " FAILED to recompile:");
-                console.log(stderr);
-            } else {
-                console.log("Module " + module + " recompiled");
-                restart();
-            }
-        });
-    });
-});
-
-
-console.log("Watching for file changes in modules...");
-fs.watch('lib', {recursive: true}, (eventType, fileName) => {
-    //Only recompile for matching files
-    if(filePattern.test(fileName)) {
-        //Stop the recompile event if another recent file change triggered it
-        clearTimeout(moduleCompileEvent);
-
-        //Queue the recompile event
-        moduleCompileEvent = setTimeout(() => {
-            const match = filePattern.exec(fileName);
-            const module = match[1];
-            console.log("Recompiling module: " + module + "...");
+        console.log("Compiling module: " + module + "...");
+        promises.push(new Promise((resolve, reject) => {
             exec("cd lib/node_modules/" + module + " && npm run compile", (err, stdout, stderr) => {
                 if(stderr.length > 0) {
                     console.log("Module " + module + " FAILED to recompile:");
                     console.log(stderr);
+                    reject();
                 } else {
                     console.log("Module " + module + " recompiled");
-                    restart();
+                    resolve();
                 }
             });
-        }, delay);
-    }
+        }));
+    });
+
+    Promise.all(promises).then(() => {
+        restart();
+
+        console.log("Watching for file changes in main app...");
+        fs.watch('src', (eventType, fileName) => {
+            clearTimeout(appCompileEvent);
+            appCompileEvent = setTimeout(() => {
+                console.log("Recompiling main app");
+                exec("npm run compile", (err, stdout, stderr) => {
+                    if(stderr.length > 0) {
+                        console.log("Main app FAILED to recompile:");
+                        console.log(stderr);
+                    } else {
+                        console.log("Main app recompiled");
+                        restart();
+                    }
+                });
+            }, delay);
+        });
+
+        console.log("Watching for file changes in modules...");
+        fs.watch('lib', {recursive: true}, (eventType, fileName) => {
+            //Only recompile for matching files
+            if(filePattern.test(fileName)) {
+                //Stop the recompile event if another recent file change triggered it
+                clearTimeout(moduleCompileEvent);
+
+                //Queue the recompile event
+                moduleCompileEvent = setTimeout(() => {
+                    const match = filePattern.exec(fileName);
+                    const module = match[1];
+                    console.log("Recompiling module: " + module + "...");
+                    exec("cd lib/node_modules/" + module + " && npm run compile", (err, stdout, stderr) => {
+                        if(stderr.length > 0) {
+                            console.log("Module " + module + " FAILED to recompile:");
+                            console.log(stderr);
+                        } else {
+                            console.log("Module " + module + " recompiled");
+                            restart();
+                        }
+                    });
+                }, delay);
+            }
+        });
+    });
 });
