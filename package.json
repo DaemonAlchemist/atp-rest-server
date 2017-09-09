@@ -13,6 +13,7 @@
   "dependencies": {
     "atp-active-record": "^0.1.2",
     "atp-config": "^0.1.1",
+    "atp-rest": "^0.1.0",
     "atp-rest-uac": "^0.1.1",
     "atp-sugar": "^0.1.5",
     "atp-validator": "^0.1.1",
