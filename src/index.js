@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser';
 import {o} from 'atp-sugar';
 import config from 'atp-config';
 import appConfig from './app.config';
+import {createRoutes} from 'atp-rest';
 
 //Merge module components
 const modulesMerged = appConfig.modules.reduce((combined, module) => combined.merge(module), o({})).raw;
@@ -24,8 +25,7 @@ const app = express()
     .use(cookieParser());
 
 //Add all module routes
-o(modulesMerged.routes)
-    .reduce((server, routes, basePath) => server.use("/" + basePath, routes), app)
+createRoutes(app, modulesMerged.routes)
 
     //Handle 404s by showing the user what they sent
     .use((request, res, next) => {
