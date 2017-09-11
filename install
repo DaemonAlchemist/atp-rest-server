@@ -1,0 +1,9 @@
+#!/bin/bash
+
+npm install
+git clone https://github.com/DaemonAlchemist/atp-active-record.git lib/node_modules/atp-active-record
+git clone https://github.com/DaemonAlchemist/atp-rest.git lib/node_modules/atp-rest
+git clone https://github.com/DaemonAlchemist/atp-config.git lib/node_modules/atp-config
+git clone https://github.com/DaemonAlchemist/atp-rest-uac.git lib/node_modules/atp-rest-uac
+git clone https://github.com/DaemonAlchemist/atp-sugar.git lib/node_modules/atp-sugar
+git clone https://github.com/DaemonAlchemist/atp-validator.git lib/node_modules/atp-validator
