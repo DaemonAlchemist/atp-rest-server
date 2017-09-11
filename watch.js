@@ -65,7 +65,7 @@ fs.readdir("lib/node_modules", (err, files) => {
     files.forEach(module => {
         console.log("Compiling module: " + module + "...");
         promises.push(new Promise((resolve, reject) => {
-            exec("cd lib/node_modules/" + module + " && npm run compile", (err, stdout, stderr) => {
+            exec("cd lib/node_modules/" + module + " && npm run compile && rm -rf node_modules", (err, stdout, stderr) => {
                 if(stderr.length > 0) {
                     console.log("Module " + module + " FAILED to recompile:");
                     console.log(stderr);
