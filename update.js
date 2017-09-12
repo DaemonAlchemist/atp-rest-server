@@ -12,7 +12,7 @@ exec("git pull", () => {});
 fs.readdir("lib/node_modules", (err, files) => {
     Promise.all(files.map(moduleName => new Promise((resolve, reject) => {
         exec("git pull", {cwd: "lib/node_modules/" + moduleName}, (err, stdout, stderr) => {
-            console.log(stdout);
+            console.log(moduleName + ": " + stdout);
             resolve();
         });
     }))).then(() => {
