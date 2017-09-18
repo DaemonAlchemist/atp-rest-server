@@ -7,11 +7,12 @@ const {exec} = require('child_process');
 const spawn = require('cross-spawn');
 const process = require('process');
 const Promise = require('promise');
+const {f} = require('atp-sugar');
 
 //Set delay check starting the recompile (PHPStorm tends to fire multiple file changes events in quick bursts)
 const config = {
     watcher: {
-        delay: 500,
+        delay: 0.5,
         moduleDir: "lib/node_modules",
         compileCmd: "npm run compile"
     }
@@ -70,14 +71,12 @@ fs.readdir(config.watcher.moduleDir, (err, files) => {
         files.map(module => ({name: module, dir: config.watcher.moduleDir + "/" + module}))
             .concat({name: 'main', dir: '.'})
             .forEach(module => {
-                console.log("Watching for file changes in " + module.name + " ...");
-                let appCompileEvent = null;
-                fs.watch(module.dir + "/src", (eventType, fileName) => {
-                    console.log(fileName);
-                    clearTimeout(appCompileEvent);
-                    appCompileEvent = setTimeout(() => {
-                        compile(module.dir, module.name, false).then(restart);
-                    }, config.watcher.delay);
+                console.log("Watching for file changes in " + module.name + " (" + module.dir + "/src) ...");
+                let appCompileEvent = f(() => {
+                    compile(module.dir, module.name, false).then(restart);
+                }).delay();
+                fs.watch(module.dir + "/src", () => {
+                    appCompileEvent.runIn(config.watcher.delay).seconds();
                 });
             });
     });
