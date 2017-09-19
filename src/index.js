@@ -3,6 +3,7 @@
  */
 
 import express from 'express';
+import cors from 'cors';
 import url from 'url';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -21,11 +22,13 @@ config.setValues(appConfig.config);
 
 //Create the app and use the JSON body parser and cookie parser for all requests
 const app = express()
+    .use(cors())
     .use(bodyParser.json())
     .use(cookieParser());
 
 //Add all module routes
 createRoutes(app, modulesMerged.routes)
+    //Allow cross-origin requests
 
     //Handle 404s by showing the user what they sent
     .use((request, res, next) => {
