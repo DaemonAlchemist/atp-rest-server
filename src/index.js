@@ -22,7 +22,7 @@ config.setValues(appConfig.config);
 
 //Create the app and use the JSON body parser and cookie parser for all requests
 const app = express()
-    .use(cors())
+    .use(cors({exposedHeaders: "Login-Token"}))
     .use(bodyParser.json())
     .use(cookieParser());
 
