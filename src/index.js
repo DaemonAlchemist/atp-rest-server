@@ -33,7 +33,7 @@ createRoutes(app, modulesMerged.routes)
     //Handle 404s by showing the user what they sent
     .use((request, res, next) => {
         res.status(404).send({
-            messages: [{type: 'error', msg: 'Route not found'}],
+            messages: [{type: 'error', text: request.url + ' not found'}],
             debug: {request: {
                 headers: request.headers,
                 method: request.method,
