@@ -1,0 +1,3 @@
+#!/bin/bash
+
+node edit.js $1
