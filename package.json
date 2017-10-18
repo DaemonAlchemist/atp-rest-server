@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "babel --presets env -d lib/ src/",
-    "start": "node watch.js"
+    "start": "node watch.js",
+    "edit": "node edit.js"
   },
   "author": "Andrew Wittrock",
   "license": "MIT",
