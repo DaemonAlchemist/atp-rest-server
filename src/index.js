@@ -3,47 +3,57 @@
  */
 
 import express from 'express';
+import cluster from 'cluster';
+import os from 'os';
 import cors from 'cors';
 import url from 'url';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 
-import {o} from 'atp-sugar';
+import {o, repeat} from 'atp-sugar';
 import config from 'atp-config';
 import appConfig from './app.config';
 import {createRoutes} from 'atp-rest';
 
-//Merge module components
-const modulesMerged = appConfig.modules.reduce((combined, module) => combined.merge(module), o({})).raw;
+if(cluster.isMaster) {
+    repeat(os.cpus().length, () => {cluster.fork();});
+    cluster.on('exit', worker => {cluster.fork();});
+} else {
+    //Merge module components
+    const modulesMerged = appConfig.modules.reduce((combined, module) => combined.merge(module), o({})).raw;
 
-//Set default and app config values
-config.setDefaults(modulesMerged.config);
-config.setValues(appConfig.config);
+    //Set default and app config values
+    config.setDefaults(modulesMerged.config);
+    config.setValues(appConfig.config);
 
-//Create the app and use the JSON body parser and cookie parser for all requests
-const app = express()
-    .use(cors({exposedHeaders: "Login-Token"}))
-    .use(bodyParser.json({limit: '50mb'}))
-    .use(cookieParser());
+    //Create the app and use the JSON body parser and cookie parser for all requests
+    const app = express()
+        .use(cors({exposedHeaders: "Login-Token"}))
+        .use(bodyParser.json({limit: '50mb'}))
+        .use(cookieParser());
 
-//Add all module routes
-createRoutes(app, modulesMerged.routes)
+    //Add all module routes
+    createRoutes(app, modulesMerged.routes)
     //Allow cross-origin requests
 
     //Handle 404s by showing the user what they sent
-    .use((request, res, next) => {
-        res.status(404).send({
-            messages: [{type: 'error', text: request.url + ' not found'}],
-            debug: {request: {
-                headers: request.headers,
-                method: request.method,
-                url: request.url,
-                query: url.parse(request.url, true).query,
-                body: request.body
-            }}});
-    })
+        .use((request, res, next) => {
+            res.status(404).send({
+                messages: [{type: 'error', text: request.url + ' not found'}],
+                debug: {
+                    request: {
+                        headers: request.headers,
+                        method: request.method,
+                        url: request.url,
+                        query: url.parse(request.url, true).query,
+                        body: request.body
+                    }
+                }
+            });
+        })
 
-    //Start the server
-    .listen(3000,  () => {
-        console.log('REST server listening on port 3000!');
-    });
+        //Start the server
+        .listen(3000, () => {
+            console.log('REST server listening on port 3000!');
+        });
+}
