@@ -15,6 +15,7 @@
     "atp-config": ">=0.3.1",
     "atp-pointfree": "^0.3.0",
     "atp-rest": ">=0.16.0",
+    "atp-rest-comic": "^0.4.0",
     "atp-rest-media": "^0.2.1",
     "atp-rest-uac": ">=0.23.2",
     "atp-sugar": ">=0.7.0",
