@@ -7,6 +7,7 @@ const {exec} = require('child_process');
 const Promise = require('promise');
 const colors = require('colors');
 const columnify = require('columnify');
+const {compose, split, joinWith, shift, first} = require('atp-pointfree');
 
 console.log("");
 fs.readdir("lib/node_modules", (err, files) => {
@@ -17,11 +18,17 @@ fs.readdir("lib/node_modules", (err, files) => {
             const module = hasChanges ? moduleName.red : needsPush ? moduleName.yellow : moduleName;
             const status = hasChanges ? "->".red : needsPush ? "->".yellow : "";
 
-            resolve({
-                ['']: status,
-                module,
-                ['changes?']: hasChanges ? "YES".red : "NO",
-                ['push?']: needsPush ? "YES".yellow : "NO"});
+            exec("git log --oneline", {cwd: "lib/node_modules/" + moduleName}, (err, stdout, stderr) => {
+                const log = compose(joinWith(" "), shift, split(" "), first, split("\n"))(stdout);
+                resolve({
+                    ['']: status,
+                    module,
+                    ['changes?']: hasChanges ? "YES".red : "NO",
+                    ['push?']: needsPush ? "YES".yellow : "NO",
+                    log
+                });
+            });
+
         });
     }))).then(results => {
         console.log(columnify(results));
