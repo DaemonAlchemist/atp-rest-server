@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "babel --presets env -d lib/ src/",
-    "start": "node watch.js"
+    "start": "node watch.js",
+    "check": "ncu --packageFile package.json",
+    "evergreen": "ncu -ua --packageFile package.json"
   },
   "author": "Andrew Wittrock",
   "license": "MIT",
@@ -14,11 +16,11 @@
     "atp-active-record": ">=0.9.0",
     "atp-config": ">=0.3.1",
     "atp-pointfree": "^0.3.0",
-    "atp-rest": ">=0.16.0",
+    "atp-rest": ">=0.17.0",
     "atp-rest-comic": "^0.4.0",
-    "atp-rest-media": "^0.2.1",
+    "atp-rest-media": "^0.3.0",
     "atp-rest-uac": ">=0.23.2",
-    "atp-sugar": ">=0.7.0",
+    "atp-sugar": ">=0.8.0",
     "atp-validator": ">=0.11.0",
     "body-parser": "^1.18.2",
     "cluster": "^0.7.7",
