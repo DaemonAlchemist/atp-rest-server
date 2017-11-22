@@ -21,7 +21,7 @@ rimraf.sync(editDir);
 
 //Install default module into ./node_modules
 console.log("-- Installing module...");
-execSync('npm install ' + moduleName, execOptions);
+//execSync('npm install ' + moduleName, execOptions);
 
 //Read repo location from default module
 console.log("-- Reading repository URL...");
