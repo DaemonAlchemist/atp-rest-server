@@ -2,6 +2,7 @@
  * Created by Andy on 8/25/2017.
  */
 
+import dotenv from 'dotenv';
 import express from 'express';
 import cluster from 'cluster';
 import os from 'os';
@@ -14,6 +15,8 @@ import {o, repeat} from 'atp-sugar';
 import config from 'atp-config';
 import appConfig from './app.config';
 import {createRoutes} from 'atp-rest';
+
+dotenv.config();
 
 if(cluster.isMaster) {
     repeat(os.cpus().length, () => {cluster.fork();});
