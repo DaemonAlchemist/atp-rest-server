@@ -23,6 +23,7 @@ export default {
                 region: process.env.AWS_REGION,
                 bucket: process.env.MEDIA_AWS_BUCKET,
                 folder: process.env.MEDIA_AWS_FOLDER,
+                staticHost: process.env.MEDIA_AWS_STATIC_HOST
             }
         }
     }
