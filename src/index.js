@@ -18,7 +18,7 @@ import {createRoutes} from 'atp-rest';
 
 dotenv.config();
 
-if(cluster.isMaster) {
+if(cluster.isMaster && process.env.ENV_TYPE === 'local') {
     repeat(os.cpus().length, () => {cluster.fork();});
     cluster.on('exit', worker => {cluster.fork();});
 } else {
@@ -29,14 +29,16 @@ if(cluster.isMaster) {
     config.setDefaults(modulesMerged.config);
     config.setValues(appConfig.config);
 
-    //Create the app and use the JSON body parser and cookie parser for all requests
-    const app = express()
-        .use(cors({exposedHeaders: "Login-Token"}))
-        .use(bodyParser.json({limit: '50mb'}))
-        .use(cookieParser());
 
+    //Create the app and use the JSON body parser and cookie parser for all requests
     //Add all module routes
-    createRoutes(app, modulesMerged.routes)
+    const app = createRoutes(
+        express()
+            .use(cors({exposedHeaders: "Login-Token"}))
+            .use(bodyParser.json({limit: '50mb'}))
+            .use(cookieParser()),
+        modulesMerged.routes
+    )
     //Allow cross-origin requests
 
     //Handle 404s by showing the user what they sent
@@ -53,10 +55,17 @@ if(cluster.isMaster) {
                     }
                 }
             });
-        })
-
-        //Start the server
-        .listen(3000, () => {
-            console.log('REST server listening on port 3000!');
         });
+
+    switch(process.env.ENV_TYPE) {
+        case 'local':
+            //Start the server
+            app.listen(3000, () => {
+                console.log('REST server listening on port 3000!');
+            });
+            break;
+        case 'awsLambda':
+
+            break;
+    }
 }

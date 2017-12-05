@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo Removing old lambda build folder
+rm -rf lambda
+
+echo Creating new lambda build folder
+mkdir lambda
+
+echo Compiling
+npm run compile
+
+echo Copying compiled files to lambda build directory
+cp lib/*.js lambda
+cp package.json lambda
+
+echo Installing
+cd lambda && npm install --production
