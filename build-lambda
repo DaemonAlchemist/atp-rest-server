@@ -15,3 +15,4 @@ cp package.json lambda
 
 echo Installing
 cd lambda && npm install --production
+
