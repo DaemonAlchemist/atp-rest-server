@@ -19,7 +19,14 @@ import {createRoutes} from 'atp-rest';
 dotenv.config();
 
 if(cluster.isMaster && process.env.ENV_TYPE === 'local') {
+    const staticApp = express();
+    staticApp.use(express.static('www'));
+    staticApp.listen(process.env.HTTP_PORT, () => {
+        console.log(`static server listening on port ${process.env.HTTP_PORT}!`);
+    });
+
     repeat(os.cpus().length, () => {cluster.fork();});
+
     cluster.on('exit', worker => {cluster.fork();});
 } else {
     //Merge module components
@@ -60,8 +67,8 @@ if(cluster.isMaster && process.env.ENV_TYPE === 'local') {
     switch(process.env.ENV_TYPE) {
         case 'local':
             //Start the server
-            app.listen(3000, () => {
-                console.log('REST server listening on port 3000!');
+            app.listen(process.env.HTTPS_PORT, () => {
+                console.log(`REST server listening on port ${process.env.HTTPS_PORT}!`);
             });
             break;
         case 'awsLambda':
