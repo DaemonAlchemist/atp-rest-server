@@ -14,7 +14,7 @@
   "author": "Andrew Wittrock",
   "license": "MIT",
   "dependencies": {
-    "atp-active-record": "^0.11.3",
+    "atp-active-record": "^0.11.4",
     "atp-config": "^0.3.5",
     "atp-pointfree": "^0.8.1",
     "atp-rest": "^0.21.0",
