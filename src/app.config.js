@@ -2,6 +2,8 @@
 import uac from 'atp-rest-uac';
 import media from 'atp-rest-media';
 import comic from 'atp-rest-comic';
+import tag from 'atp-rest-tag';
+
 import {o} from 'atp-sugar';
 
 const localHost = o({
@@ -11,7 +13,7 @@ const localHost = o({
 });
 
 export default {
-    modules: [uac, media, comic],
+    modules: [uac, media, comic, tag],
     config: {
         mysql: {
             connection: {
