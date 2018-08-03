@@ -20,7 +20,7 @@
     "atp-rest": "^0.24.0",
     "atp-rest-comic": "^0.8.5",
     "atp-rest-media": "^0.8.0",
-    "atp-rest-tag": "^0.1.0",
+    "atp-rest-tag": "^0.2.0",
     "atp-rest-uac": "^0.25.3",
     "atp-sugar": "^0.8.4",
     "atp-validator": "^0.12.1",
