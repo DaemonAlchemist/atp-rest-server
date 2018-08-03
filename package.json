@@ -21,6 +21,7 @@
     "atp-config": "^0.3.5",
     "atp-pointfree": "^0.9.0",
     "atp-rest": "^0.24.0",
+    "atp-rest-cms": "^0.1.0",
     "atp-rest-comic": "^0.8.5",
     "atp-rest-media": "^0.8.0",
     "atp-rest-tag": "^0.2.1",
