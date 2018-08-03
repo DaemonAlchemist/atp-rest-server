@@ -7,6 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "babel --presets env -d lib/ src/",
     "start": "node watch.js",
+    "serve": "forever start lib/index.js",
+    "stop": "forever stop lib/index.js",
+    "restart": "forever restart lib/index.js",
     "check-dependencies": "dependency-check ./package.json && dependency-check ./package.json --unused",
     "check": "ncu --packageFile package.json",
     "evergreen": "ncu -ua --packageFile package.json"
@@ -20,7 +23,7 @@
     "atp-rest": "^0.24.0",
     "atp-rest-comic": "^0.8.5",
     "atp-rest-media": "^0.8.0",
-    "atp-rest-tag": "^0.2.0",
+    "atp-rest-tag": "^0.2.1",
     "atp-rest-uac": "^0.25.3",
     "atp-sugar": "^0.8.4",
     "atp-validator": "^0.12.1",
@@ -33,6 +36,7 @@
     "cors": "^2.8.4",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
+    "forever": "^0.15.3",
     "mysql-activerecord": "^0.8.6",
     "promise": "^8.0.1",
     "rimraf": "^2.6.2"
