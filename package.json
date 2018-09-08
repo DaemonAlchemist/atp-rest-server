@@ -10,6 +10,7 @@
     "serve": "forever start lib/index.js",
     "stop": "forever stop lib/index.js",
     "restart": "forever restart lib/index.js",
+    "deploy": "git pull && npm install && npm run restart",
     "check-dependencies": "dependency-check ./package.json && dependency-check ./package.json --unused",
     "check": "ncu --packageFile package.json",
     "evergreen": "ncu -ua --packageFile package.json"
@@ -22,7 +23,7 @@
     "atp-pointfree": "^0.11.5",
     "atp-rest": "^0.24.0",
     "atp-rest-cms": "^0.2.0",
-    "atp-rest-comic": "^0.8.6",
+    "atp-rest-comic": "^0.9.1",
     "atp-rest-media": "^0.9.4",
     "atp-rest-tag": "^0.3.0",
     "atp-rest-uac": "^0.25.4",
