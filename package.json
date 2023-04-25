@@ -15,7 +15,7 @@
     "check": "ncu --packageFile package.json",
     "evergreen": "ncu -ua --packageFile package.json"
   },
-  "author": "Andrew Wittrock",
+  "author": "DaemonAlchemist",
   "license": "MIT",
   "dependencies": {
     "atp-active-record": "^0.12.2",
